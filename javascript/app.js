@@ -27,7 +27,7 @@ var topicsArray = ["cats","icecream","ariana grande","kim kardashian", "jennifer
                     gifDiv.prepend(p);
                     gifDiv.prepend(topicImage);
 
-                    $("#gifs-appear-here").prepend(gifDiv);
+                    $("#gifs-show-here").prepend(gifDiv);
                 }
             });
     });
