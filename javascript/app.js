@@ -10,12 +10,11 @@ $(document).ready(function() {
     $("#buttons-div").empty();
     for (var i = 0; i < topicsArray.length; i++) {
       //creates variable in place of the button
-      // var button = $("<button>");
-      $("#buttons-div").append("<button class='topic-class' data-topic='" + topicsArray[i]+ "'>" +topicsArray[i]+ "<button");
-      // button.addClass("topic-class");
-      // button.attr("data-name", topicsArray[i]);
-      // button.text(topicsArray[i]);
-      // $("#buttons-div").append(button);
+      var button = $("<button>");
+      button.addClass("topic-class");
+      button.attr("data-topic", topicsArray[i]);
+      button.text(topicsArray[i]);
+      $("#buttons-div").append(button);
     }
   }
   makeButtons();
@@ -27,16 +26,17 @@ $(document).ready(function() {
       .trim();
     topicsArray.push(topic);
     makeButtons();
-    return;
+    $("#topic-input").val("");
   });
 
-
-  // function displayGifs() 
-  $("button").on("click",function(){
+  $(document).on("click", "button", function() {
+    //this should be the clicked button
     console.log(this);
     var topic = $(this).attr("data-topic");
     var queryURL =
-      "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=kK9L20nLWIersNTnyEhUOMzC7tO9R31C&limit=10";
+      "https://api.giphy.com/v1/gifs/search?q=" +
+      topic +
+      "&api_key=kK9L20nLWIersNTnyEhUOMzC7tO9R31C&limit=10";
     $.ajax({
       url: queryURL,
       method: "GET"
@@ -51,9 +51,9 @@ $(document).ready(function() {
         var p = $("<p>").html("Rating: " + rating);
         var topicImage = $("<img>");
         topicImage.attr("src", results[i].images.original_still.url);
-        topicImage.attr("data-still",results[i].images.original_still.url);
+        topicImage.attr("data-still", results[i].images.original_still.url);
         topicImage.attr("data-animate", results[i].images.original.url);
-        topicImage.attr("data-state","still");
+        topicImage.attr("data-state", "still");
         topicImage.addClass("gif");
         gifDiv.prepend(p);
         gifDiv.prepend(topicImage);
@@ -64,15 +64,15 @@ $(document).ready(function() {
 
   function toggle() {
     var state = $(this).attr("data-state");
-    var animateGif= $(this).attr("data-animate");
-    var stillGif= $(this).attr("data-still");
+    var animateGif = $(this).attr("data-animate");
+    var stillGif = $(this).attr("data-still");
     if (state == "still") {
       $(this).attr("src", animateGif);
       $(this).attr("data-state", "animate");
-    } else if (state=="animate") {
+    } else if (state == "animate") {
       $(this).attr("src", stillGif);
       $(this).attr("data-state", "still");
     }
   }
- $(document).on("click", ".gif", toggle);
+  $(document).on("click", ".gif", toggle);
 });
